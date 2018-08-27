@@ -13,9 +13,9 @@ let numUsers = 0;
 
 io.on('connection', socket => {
   let addedUser = false;
-  console.log('connection!');
+  console.log('connection!', { referer: socket.referer });
   socket.on('message', data => {
-    console.log('message',{userName: socket.userName, message: data});
+    console.log('message',{userName: socket.userName, message: data, referer: socket.referer});
     socket.broadcast.emit('message', {
       userName: socket.userName,
       message: data,
@@ -27,7 +27,7 @@ io.on('connection', socket => {
     socket.userName = userName;
     numUsers += 1;
     addedUser = true;
-    console.log('join', { userName, numUsers });
+    console.log('join', { userName, numUsers, referer: socket.referer });
     socket.emit('login', {
       numUsers,
     });
@@ -37,21 +37,21 @@ io.on('connection', socket => {
     });
   });
   socket.on('start typing', () => {
-    console.log('start typing', { userName: socket.userName });
+    console.log('start typing', { userName: socket.userName, referer: socket.referer });
     socket.broadcast.emit('start typing', {
       userName: socket.userName,
     });
   });
 
   socket.on('stop typing', () => {
-    console.log('stop typing', { userName: socket.userName });
+    console.log('stop typing', { userName: socket.userName, referer: socket.referer });
     socket.broadcast.emit('stop typing', {
       userName: socket.userName,
     });
   });
   socket.on('disconnect', () => {
     if (!addedUser) return ;
-    console.log('disconnect', { userName: socket.userName, numUsers });
+    console.log('disconnect', { userName: socket.userName, numUsers, referer: socket.referer });
     numUsers -= 1;
     socket.broadcast.emit('user left', {
       userName: socket.userName,

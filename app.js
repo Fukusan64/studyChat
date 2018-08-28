@@ -17,6 +17,7 @@ io.on('connection', socket => {
   socket.on('message', data => {
     console.log('message',{userName: socket.userName, message: data, referer: socket.handshake.headers.referer});
     io.emit('message', {
+      id: socket.id,
       userName: socket.userName,
       message: data,
     });

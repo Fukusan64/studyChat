@@ -1,5 +1,5 @@
 //
-// index.js
+// main.js
 //
 
 {
@@ -18,48 +18,69 @@
     const socket = io.connect();
     let userName = '';
 
+    const validate = {
+      soft: /(^[\ |\t]+$)/,
+      hard: /(^[\ |\n|\t]+$)/
+    };
+
+    const msgFormat = (name, message) => {
+      return {
+        name,
+        message
+      };
+    };
+
     const connectEvent = () => {
 
-      // TODO: 後で変える
-      const loginDialog = $('#loginDialog').get(0);
-      loginDialog.showModal();
-
-      $('#closeButton').click(() => {
-        if ($('#userName').val() !== '') {
-          userName = $('#userName').val();
-          socket.emit('join', $('#userName').val());
-          loginDialog.close();
+      new Vue({
+        el: '#login-modal',
+        data: {
+          seen: true,
+          name: ''
+        },
+        methods: {
+          clicked() {
+            if (this.name && !validate.hard.test(this.name)) {
+              userName = this.name;
+              socket.emit('join', this.name);
+              this.seen = false;
+            }
+          }
         }
       });
 
-      document.getElementById('sendButton')
-        .addEventListener('click', () => {
+      const contents = new Vue({
+        el: '#contents',
+        data: {
+          messages: []
+        }
+      });
 
-          const msg = document.getElementById('chatBar').value;
-
-          if (!(/([\ |\r|\n])/).test(msg)) {
-
-            const msgArea = document.getElementById('messageArea');
-            msgArea.innerHTML += `<p>${userName}: ${msg}</p>`;
-
-            socket.emit('message', msg);
-
-            console.log(msg);
-
+      new Vue({
+        el: '#chat-input',
+        data: {
+          msg: ''
+        },
+        methods: {
+          clicked() {
+            if (this.msg && !validate.soft.test(this.msg)) {
+              socket.emit('message', this.msg);
+              this.msg = '';
+            }
+          },
+          newLine() {
+            console.log('Pressed Enter Key.');
           }
+        }
+      });
 
-        });
+      socket.on('message', data => {
+        contents.messages.push(msgFormat(data.userName, data.message));
+      });
 
     };
 
     socket.on('connect', connectEvent);
-
-    socket.on('message', data => {
-
-      const msgArea = document.getElementById('messageArea');
-      msgArea.innerHTML += `<p>${data.userName}: ${data.message}</p>`;
-
-    });
 
   })();
 

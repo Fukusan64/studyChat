@@ -1,58 +1,76 @@
-body{
-  background-color: #ddd;
+/*
+ * style.css
+*/
+
+/* GLOBAL */
+
+body {
+  background-color: rgb(221, 221, 221);
+  margin: 0px;
+  width: 100vw;
+  height: 100vh;
 }
-#inputWrapper{
+
+/* Login Form */
+
+#login-modal {
   position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 50px;
-  padding: 0;
-  margin: 0;
-  border: 0;
-  background-color: #aaa;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
 }
-.inputBar{
-  display: block;
+
+#login-contents {
+  width: 50vw;
+  height: 25vh;
+  margin-top: 37.5vh;
+  margin-left: 25vw;
+  border: solid 3px;
+  border-radius: 10px;
+  border-color: gray;
+  box-sizing: border-box;
+  padding: 1vh 1vw;
+  background-color: darkgray;
+}
+
+
+#login-text {
+  font-size: 1.2em;
+  font-family: sans-serif;
+  font-weight: bold;
+  border-bottom: solid 2px;
+  border-bottom-color: rgb(64, 64, 64);
+  margin-bottom: 2vh;
+}
+
+#login-input {
+  width: -webkit-fill-available;
+  height: 5vh;
+  font-size: 1em;
+  font-family: sans-serif;
+  box-sizing: border-box;
+  padding: 1vh 1vw;
+  border: solid 2px;
   border-radius: 5px;
-  border: solid #aaa 2px;
-  box-sizing: border-box;
-  height: 30px;
-  font-size: 20px;
+  border-color: royalblue;
+  background-color: aliceblue;
+  margin-bottom: 2vh;
 }
-#chatBar{
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: calc(100% - 100px);
-  height: 100%;
-  font-size: 40px;
-}
-.button{
+
+#login-btn {
   display: block;
+  width: 25vw;
+  height: 5vh;
+  margin: auto;
+  font-size: 0.9em;
+  font-family: sans-serif;
+  font-weight: bold;
+  border: solid 3px;
   border-radius: 5px;
-  border: solid #aaa 2px;
-  background-color: blue;
-  color: white;
-  font-size: 15px;
-  box-sizing: border-box;
-  width: 100px;
-  height: 30px;
-  background-color: blue;
-}
-#sendButton{
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 100px;
-  height: 100%;
-}
-#messageArea{
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: calc(100% - 50px);
-  box-sizing: border-box;
-  background-color: #eee;
+  border-color: royalblue;
+  background-color: lightskyblue;
 }

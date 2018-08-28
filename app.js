@@ -16,7 +16,7 @@ io.on('connection', socket => {
   console.log('connection!', { referer: socket.handshake.headers.referer });
   socket.on('message', data => {
     console.log('message',{userName: socket.userName, message: data, referer: socket.handshake.headers.referer});
-    socket.broadcast.emit('message', {
+    io.emit('message', {
       userName: socket.userName,
       message: data,
     });

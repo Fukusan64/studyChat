@@ -10,5 +10,17 @@ $(()=> {
         loginDialog.close();
       }
     });
+
+    $('#sendButton').click(() => {
+      if($('#chatBar').val() !== '')
+      {
+        socket.emit('message', $('#chatBar').val());
+        $('#chatBar').val('');
+      }
+    });
+  });
+
+  socket.on('message', data => {
+    $('#messageArea').text(`${data.userName} said: ${data.message}`);
   });
 });

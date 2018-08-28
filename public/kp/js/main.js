@@ -5,22 +5,24 @@ $(()=> {
     loginDialog.showModal();
 
     $('#closeButton').click(() => {
-      if($('#userName').val() !== '') {
-        socket.emit('join', $('#userName').val());
+      let u = $('#userName'); 
+      if(u.val() !== '') {
+        socket.emit('join', u.val());
         loginDialog.close();
       }
     });
 
     $('#sendButton').click(() => {
-      if($('#chatBar').val() !== '')
-      {
-        socket.emit('message', $('#chatBar').val());
-        $('#chatBar').val('');
+      let c = $('chatBar');
+      if(c.val()  !== ''){
+        socket.emit('message', c.val());
+        c.val('');
       }
     });
   });
 
   socket.on('message', data => {
-    $('#messageArea').text(`${data.userName} said: ${data.message}`);
-  });
+    let m = $('messageArea');
+    m.text(m.text() + `<p>${data.userName} said: ${data.message}</p>`);
+  })
 });

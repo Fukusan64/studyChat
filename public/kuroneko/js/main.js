@@ -86,7 +86,13 @@
         el: '#info',
         data: {
           active: activate,
-          data: []
+          data: [],
+          userList: []
+        },
+        methods: {
+          isMyID(id) {
+            return id === userID;
+          }
         }
       });
 
@@ -127,6 +133,21 @@
 
       socket.on('login', data => {
         info.active = activate = data.numUsers;
+        info.userList = data.userList;
+      });
+
+      socket.on('join', data => {
+        info.active = activate = data.numUsers;
+        info.userList[data.joinedUserId] = data.userName;
+      });
+
+      socket.on('user left', async data => {
+        Vue.delete(info.userList, data.leftUserId);
+        Vue.delete(info.userList, 'undefined');
+        await info.$nextTick();
+        info.active = activate = data.numUsers;
+        // TODO: ここに退室した人の名前を書く
+        console.log(data.userName);
       });
 
       document.getElementById('login-input').focus();

@@ -46,7 +46,10 @@
         現在 {{ active }}人 入室しています
       </div>
       <ul id="active-member-list">
-        <li class="active-member" v-for="user of userList">
+        <li class="active-member" v-for="(userName, userID) of userList">
+          <div class="active-member-name" :class="{ 'active-member-my-name': isMyID(userID) }">
+            {{ userName }}
+          </div>
         </li>
       </ul>
       <div id="now-typing">

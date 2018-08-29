@@ -10,6 +10,7 @@ server.listen(port, ()=> console.log(`Server listening at port ${port}`));
 app.use(express.static(path.join(__dirname, 'public')));
 
 let numUsers = 0;
+let typingUser = {};
 
 io.on('connection', socket => {
   let addedUser = false;
@@ -39,15 +40,17 @@ io.on('connection', socket => {
   });
   socket.on('start typing', () => {
     console.log('start typing', { userName: socket.userName, referer: socket.handshake.headers.referer });
-    socket.broadcast.emit('start typing', {
-      userName: socket.userName,
+    typingUser[socket.id] = socket.userName;
+    io.emit('update typing user', {
+      typingUser,
     });
   });
 
   socket.on('stop typing', () => {
     console.log('stop typing', { userName: socket.userName, referer: socket.handshake.headers.referer });
-    socket.broadcast.emit('stop typing', {
-      userName: socket.userName,
+    delete typingUser[socket.id];
+    io.emit('update typing user', {
+      typingUser,
     });
   });
   socket.on('disconnect', () => {

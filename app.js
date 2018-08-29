@@ -39,6 +39,7 @@ io.on('connection', socket => {
     socket.broadcast.emit('join', {
       userName,
       numUsers,
+      joinedUserId: socket.id,
     });
   });
   socket.on('start typing', () => {

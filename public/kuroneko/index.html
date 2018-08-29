@@ -5,6 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Study Chat</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" media="screen" href="https://use.fontawesome.com/releases/v5.0.6/css/all.css">
   <link rel="stylesheet" type="text/css" media="screen" href="./css/style.css" />
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   <script type="text/javascript" src="/socket.io/socket.io.js"></script>
@@ -13,15 +14,27 @@
 <body>
   
   <div id="chat-input">
-    <textarea wrap="soft" id="chat-input-bar" v-model="msg" @keyup.ctrl.enter="clicked()" @keyup.enter="newLine()"></textarea>
-    <button class="chat-btn" @click="clicked()">送信</button>
+    <textarea wrap="soft" id="chat-input-bar" v-model="msg" @keyup.ctrl.enter="clicked()"></textarea>
+    <button id="chat-btn" @click="clicked()">
+      <i id="send-icon" class="fas fa-paper-plane fa-3x"></i>
+      <div id="send-shortcut">(ctrl + Enter)</div>
+    </button>
   </div>
+
+  <!-- <div id="extend-icon">
+
+  </div> -->
 
   <div id="contents">
     <ul class="list">
-      <li class="contents-list" v-for="item of messages">
-        <div class="name">{{ item.name }}</div>
-        <div class="message">{{ item.message }}</div>
+      <li class="contents-list" v-for="item of messages" v-html="item">
+      </li>
+    </ul>
+  </div>
+
+  <div id="my-contents">
+    <ul class="list">
+      <li class="contents-list" v-for="item of posts" v-html="item">
       </li>
     </ul>
   </div>

@@ -16,21 +16,33 @@
     await waitLoad();
 
     const socket = io.connect();
+
+    let userID = '';
     let userName = '';
+
+    let activate = 0;
 
     const validate = {
       soft: /(^[\ |\t]+$)/,
       hard: /(^[\ |\n|\t]+$)/
     };
 
-    const msgFormat = (name, message) => {
-      return {
-        name,
-        message
-      };
+    const msgFormat = (id, name, message) => {
+      message = message.replace(/([&])/g, '&amp;');
+      message = message.replace(/([<])/g, '&lt;');
+      message = message.replace(/([>])/g, '&gt;');
+      message = message.replace(/(["])/g, '&quot;');
+      message = message.replace(/(['])/g, '&#39;');
+      message = message.replace(/([\ ])/g, '&nbsp;');
+      message = message.replace(/([\n])/g, '<br>');
+
+      const className = (userID === id) ? 'my-posts' : 'others-posts';
+      return `<div class="${className}"><div class="name">${name}</div><div class="message">${message}</div></div>`;
     };
 
     const connectEvent = () => {
+
+      userID = socket.id;
 
       new Vue({
         el: '#login-modal',
@@ -56,6 +68,13 @@
         }
       });
 
+      const myContents = new Vue({
+        el: '#my-contents',
+        data: {
+          posts: []
+        }
+      });
+
       new Vue({
         el: '#chat-input',
         data: {
@@ -67,15 +86,20 @@
               socket.emit('message', this.msg);
               this.msg = '';
             }
-          },
-          newLine() {
-            console.log('Pressed Enter Key.');
           }
         }
       });
 
       socket.on('message', data => {
-        contents.messages.push(msgFormat(data.userName, data.message));
+        const msg = msgFormat(data.id, data.userName, data.message);
+        contents.messages.push(msg);
+        if (data.id === userID) {
+          myContents.posts.push(msg);
+        }
+      });
+
+      socket.on('login', data => {
+        activate = data.numUsers;
       });
 
     };

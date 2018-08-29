@@ -5,10 +5,11 @@
 /* GLOBAL */
 
 body {
-  background-color: rgb(221, 221, 221);
+  background-color: powderblue;
   margin: 0px;
   width: 100vw;
   height: 100vh;
+  position: fixed;
 }
 
 /* Login Form */
@@ -25,46 +26,47 @@ body {
 }
 
 #login-contents {
-  width: 50vw;
-  height: 25vh;
-  margin-top: 37.5vh;
-  margin-left: 25vw;
+  width: 334px;
+  height: 152px;
+  margin-top: calc((100vh - 140px) / 2);
+  margin-left: calc((100vw - 320px) / 2);
   border: solid 3px;
   border-radius: 10px;
   border-color: gray;
   box-sizing: border-box;
-  padding: 1vh 1vw;
+  padding: 6px 7px;
   background-color: darkgray;
 }
 
 
 #login-text {
+  height: 28px;
   font-size: 1.2em;
   font-family: sans-serif;
   font-weight: bold;
   border-bottom: solid 2px;
   border-bottom-color: rgb(64, 64, 64);
-  margin-bottom: 2vh;
+  margin-bottom: 12px;
 }
 
 #login-input {
   width: -webkit-fill-available;
-  height: 5vh;
+  height: 31px;
   font-size: 1em;
   font-family: sans-serif;
   box-sizing: border-box;
-  padding: 1vh 1vw;
+  padding: 6px 7px;
   border: solid 2px;
   border-radius: 5px;
   border-color: royalblue;
   background-color: aliceblue;
-  margin-bottom: 2vh;
+  margin-bottom: 12px;
 }
 
 #login-btn {
   display: block;
-  width: 25vw;
-  height: 5vh;
+  width: 170px;
+  height: 31px;
   margin: auto;
   font-size: 0.9em;
   font-family: sans-serif;
@@ -73,4 +75,48 @@ body {
   border-radius: 5px;
   border-color: royalblue;
   background-color: lightskyblue;
+}
+
+/* Chat Form */
+
+#chat-input {
+  position: fixed;
+  width: 70vw;
+  height: calc(16vh + 6px);
+  bottom: 0px;
+  box-sizing: border-box;
+  border: solid 3px;
+  border-color: rgb(32, 32, 32);
+}
+
+#chat-input-bar {
+  display: block;
+  width: calc(56vw - 3px);
+  height: 16vh;
+  font-size: 1.2em;
+  font-family: sans-serif;
+  box-sizing: inherit;
+  padding: 1vh 1vw;
+  resize: none;
+}
+
+#chat-btn {
+  width: calc(14vw - 3px);
+  height: 16vh;
+  float: right;
+  margin-top: -16vh;
+  font-family: sans-serif;
+  box-sizing: inherit;
+  border: solid 2px;
+  border-color: mediumslateblue;
+  background-color: lightcyan;
+}
+
+#send-icon {
+  margin: 2vh 0;
+}
+
+#send-shortcut {
+  font-size: 0.8em;
+  color: tomato;
 }

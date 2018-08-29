@@ -10,6 +10,7 @@ server.listen(port, ()=> console.log(`Server listening at port ${port}`));
 app.use(express.static(path.join(__dirname, 'public')));
 
 let numUsers = 0;
+let userList = {};
 let typingUser = {};
 
 io.on('connection', socket => {
@@ -26,12 +27,14 @@ io.on('connection', socket => {
 
   socket.on('join', userName => {
     if(addedUser) return ;
+    userList[socket.id] = userName;
     socket.userName = userName;
     numUsers += 1;
     addedUser = true;
     console.log('join', { userName, numUsers, referer: socket.handshake.headers.referer });
     socket.emit('login', {
       numUsers,
+      userList,
     });
     socket.broadcast.emit('join', {
       userName,
@@ -55,11 +58,13 @@ io.on('connection', socket => {
   });
   socket.on('disconnect', () => {
     if (!addedUser) return ;
+    delete userList[socket.id];
     console.log('disconnect', { userName: socket.userName, numUsers, referer: socket.handshake.headers.referer });
     numUsers -= 1;
     socket.broadcast.emit('user left', {
       userName: socket.userName,
       numUsers,
+      leftUserId: socket.id,
     });
   });
 });

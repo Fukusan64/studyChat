@@ -10,6 +10,6 @@ document.addEventListener("DOMContentLoaded",()=>{
                 socket.emit("join",userName);
                 loginDialog.close();
             }
-        })
-    })
+        });
+    });
 });

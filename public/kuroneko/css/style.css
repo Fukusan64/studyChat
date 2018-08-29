@@ -125,16 +125,6 @@ body {
   background-color: steelblue;
 }
 
-#my-contents {
-  width: 30vw;
-  height: 100vh;
-  margin-top: calc(0px - (84vh - 6px));
-  margin-left: 70vw;
-  background-color: steelblue;
-  box-sizing: border-box;
-  border-left: solid 2px white;
-}
-
 .contents-header {
   text-align: center;
   width: 70vw;
@@ -149,10 +139,6 @@ body {
   border-bottom: double 3px lightgray;
 }
 
-#my-contents-header {
-  width: 30vw;
-}
-
 #contents-box {
   width: 70vw;
   height: calc(77vh - 6px);
@@ -161,17 +147,6 @@ body {
 }
 
 #contents-box::-webkit-scrollbar {
-  display: none;
-}
-
-#my-contents-box {
-  width: 30vw;
-  height: 93vh;
-  overflow-y: auto;
-  -ms-overflow-style: none;
-}
-
-#my-contents-box::-webkit-scrollbar {
   display: none;
 }
 
@@ -209,4 +184,54 @@ body {
 .my-message {
   background-color: royalblue;
   text-align: left;
+}
+
+/* Information Window */
+
+#info {
+  width: 30vw;
+  height: 100vh;
+  margin-top: calc(0px - (84vh - 6px));
+  margin-left: 70vw;
+  background-color: steelblue;
+  box-sizing: border-box;
+  border-left: solid 2px white;
+}
+
+#info-header {
+  width: 30vw;
+}
+
+#info-box {
+  width: 30vw;
+  height: 93vh;
+  overflow-y: auto;
+}
+
+#info-box::-webkit-scrollbar {
+  display: none;
+}
+
+#now-active {
+
+}
+
+#active-member-list {
+
+}
+
+.active-member {
+
+}
+
+#now-typing {
+
+}
+
+.small-list {
+
+}
+
+.typing-list {
+
 }

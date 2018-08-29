@@ -23,8 +23,8 @@
     let activate = 0;
 
     const validate = {
-      soft: /(^[\ |\t]+$)/,
-      hard: /(^[\ |\n|\t]+$)/
+      soft: /(^[ \t]+$)/,
+      hard: /(^[ \n\t]+$)/
     };
 
     const escape = (string) => {
@@ -33,11 +33,20 @@
       string = string.replace(/([>])/g, '&gt;');
       string = string.replace(/(["])/g, '&quot;');
       string = string.replace(/(['])/g, '&#39;');
-      string = string.replace(/([\ ])/g, '&nbsp;');
+      string = string.replace(/([ ])/g, '&nbsp;');
       string = string.replace(/([\n])/g, '<br>');
 
-      return string;
+      return AutoLink(string);
     };
+
+    function AutoLink(str) {
+      const regexp_url = /((h?)(ttps?:\/\/[a-zA-Z0-9.\-_@:/~?%&;=+#',()*!]+))/g;
+      const regexp_makeLink = (all, url, h, href) => {
+        return `<a target="_blank" href="h${href}">${url}</a>`;
+      };
+
+      return str.replace(regexp_url, regexp_makeLink);
+    }
 
     const msgFormat = (name, message, isMyPost) => {
       message = escape(message);
@@ -73,10 +82,11 @@
         }
       });
 
-      const myContents = new Vue({
-        el: '#my-contents',
+      const info = new Vue({
+        el: '#info',
         data: {
-          posts: []
+          active: activate,
+          data: []
         }
       });
 
@@ -96,19 +106,27 @@
         }
       });
 
-      socket.on('message', data => {
+      socket.on('message', async data => {
         const isMyPost = (data.id === userID);
         contents.messages.push({
           isMyPost,
           content: msgFormat(data.userName, data.message, isMyPost)
         });
-        if (isMyPost) {
-          // myContents.posts.push(msgFormat(data.userName, data.message));
-        }
+
+        await contents.$nextTick();
+
+        const content = document.getElementById('contents-box');
+        const bottomItem = ([...content.children[0].children]).pop();
+
+        content.scroll({
+          top: content.scrollHeight + bottomItem.offsetHeight,
+          left: 0,
+          behavior: 'smooth'
+        });
       });
 
       socket.on('login', data => {
-        activate = data.numUsers;
+        info.active = activate = data.numUsers;
       });
 
       document.getElementById('login-input').focus();

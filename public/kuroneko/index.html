@@ -37,15 +37,24 @@
     </div>
   </div>
 
-  <div id="my-contents">
-    <header class="contents-header" id="my-contents-header">
-      My Posts
+  <div id="info">
+    <header class="contents-header" id="info-header">
+      Info
     </header>
-    <div id="my-contents-box">
-      <ul class="list">
-        <li v-for="item of posts" class="contents-list my-contents-posts" v-html="item">
+    <div id="info-box">
+      <div id="now-active">
+        現在 {{ active }}人 入室しています
+      </div>
+      <ul id="active-member-list">
+        <li class="active-member" v-for="user of userList">
         </li>
       </ul>
+      <div id="now-typing">
+        <ul class="small-list">
+          <li v-for="user of data" class="typing-list" v-html="user">
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 

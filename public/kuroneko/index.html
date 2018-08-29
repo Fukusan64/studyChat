@@ -26,17 +26,27 @@
   </div> -->
 
   <div id="contents">
-    <ul class="list">
-      <li class="contents-list" v-for="item of messages" v-html="item">
-      </li>
-    </ul>
+    <header class="contents-header">
+      タイムライン
+    </header>
+    <div id="contents-box">
+      <ul class="list">
+        <li v-for="item of messages" class="contents-list" :class="{ 'my-post': item.isMyPost }" v-html="item.content">
+        </li>
+      </ul>
+    </div>
   </div>
 
   <div id="my-contents">
-    <ul class="list">
-      <li class="contents-list" v-for="item of posts" v-html="item">
-      </li>
-    </ul>
+    <header class="contents-header" id="my-contents-header">
+      My Posts
+    </header>
+    <div id="my-contents-box">
+      <ul class="list">
+        <li v-for="item of posts" class="contents-list my-contents-posts" v-html="item">
+        </li>
+      </ul>
+    </div>
   </div>
 
   <div id="login-modal" v-if="seen">

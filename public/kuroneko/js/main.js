@@ -27,17 +27,21 @@
       hard: /(^[\ |\n|\t]+$)/
     };
 
-    const msgFormat = (id, name, message) => {
-      message = message.replace(/([&])/g, '&amp;');
-      message = message.replace(/([<])/g, '&lt;');
-      message = message.replace(/([>])/g, '&gt;');
-      message = message.replace(/(["])/g, '&quot;');
-      message = message.replace(/(['])/g, '&#39;');
-      message = message.replace(/([\ ])/g, '&nbsp;');
-      message = message.replace(/([\n])/g, '<br>');
+    const escape = (string) => {
+      string = string.replace(/([&])/g, '&amp;');
+      string = string.replace(/([<])/g, '&lt;');
+      string = string.replace(/([>])/g, '&gt;');
+      string = string.replace(/(["])/g, '&quot;');
+      string = string.replace(/(['])/g, '&#39;');
+      string = string.replace(/([\ ])/g, '&nbsp;');
+      string = string.replace(/([\n])/g, '<br>');
 
-      const className = (userID === id) ? 'my-posts' : 'others-posts';
-      return `<div class="${className}"><div class="name">${name}</div><div class="message">${message}</div></div>`;
+      return string;
+    };
+
+    const msgFormat = (name, message, isMyPost) => {
+      message = escape(message);
+      return `<div class="name">${name}</div><div class="message ${isMyPost ? 'my-message' : ''}">${message}</div>`;
     };
 
     const connectEvent = () => {
@@ -53,9 +57,10 @@
         methods: {
           clicked() {
             if (this.name && !validate.hard.test(this.name)) {
-              userName = this.name;
-              socket.emit('join', this.name);
+              userName = escape(this.name);
+              socket.emit('join', escape(this.name));
               this.seen = false;
+              document.getElementById('chat-input-bar').focus();
             }
           }
         }
@@ -64,7 +69,7 @@
       const contents = new Vue({
         el: '#contents',
         data: {
-          messages: []
+          messages: [],
         }
       });
 
@@ -85,22 +90,28 @@
             if (this.msg && !validate.soft.test(this.msg)) {
               socket.emit('message', this.msg);
               this.msg = '';
+              document.getElementById('chat-input-bar').focus();
             }
           }
         }
       });
 
       socket.on('message', data => {
-        const msg = msgFormat(data.id, data.userName, data.message);
-        contents.messages.push(msg);
-        if (data.id === userID) {
-          myContents.posts.push(msg);
+        const isMyPost = (data.id === userID);
+        contents.messages.push({
+          isMyPost,
+          content: msgFormat(data.userName, data.message, isMyPost)
+        });
+        if (isMyPost) {
+          // myContents.posts.push(msgFormat(data.userName, data.message));
         }
       });
 
       socket.on('login', data => {
         activate = data.numUsers;
       });
+
+      document.getElementById('login-input').focus();
 
     };
 

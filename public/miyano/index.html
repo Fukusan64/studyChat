@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/index.js"></script>
+</head>
+<body>
+<div id="inputWrapper">
+    <input class="inputBar" id="chatBar" type="text" title="chat">
+    <button id="sendButton" class="button">Send</button>
+</div>
+<div id="messageArea"></div>
+<dialog id="loginDialog">
+    <h2>Login</h2>
+    <img src="./header.jpg" id="header" alt="最上静香ちゃんはかわいい" title="最上静香ちゃんはかわいい">
+    <p>Welcome! Enter your name to login.</p>
+    <label for="userName">User Name</label>
+    <input type="text" id="userName" class="textInput" value="" placeholder="USERNAME">
+    <button id="closeButton" class="button">Login</button>
+</dialog>
+</body>
+</html>

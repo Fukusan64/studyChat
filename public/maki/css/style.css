@@ -1,0 +1,94 @@
+body{
+  /*background-color: #ddd;*/
+  background-color: #37474f;
+  font-family: Yu Gothic;
+}
+#loginDialog{
+  border-radius: 6px;
+  border: solid #aaa 1px;
+  font-size: 20px;
+}
+#inputWrapper{
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 6%;;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background-color: #aaa;
+  z-index: 1;
+}
+.inputBar{
+  display: block;
+  border-radius: 6px;
+  border: solid #aaa 2px;
+  box-sizing: border-box;
+  font-size: 20px;
+  z-index: 2;
+}
+#chatBar{
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  max-height: 1000%;
+  width: calc(100% - 100px);
+  line-height: 40px;
+  font-size: 35px;
+  background-color: #ffffff;
+  
+}
+.button{
+  display: block;
+  border-radius: 6px;
+  border: solid #aaa 3px;
+  background-color: #6200ea;
+  color: white;
+  font-size: 18px;
+  box-sizing: border-box;
+  width: 100px;
+  height: 30px;
+}
+#sendButton{
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100px;
+  height: 100%;
+}
+#messageArea{
+  position: fixed;
+  display: block;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 94%;
+  box-sizing: border-box;
+  overflow: scroll;
+  overflow-x: hidden;
+}
+
+.dataSet{
+  position: relative;
+  padding: 0 2%;  
+  font-size: 30px;
+}
+.postingTime{
+  color: #546e7a;
+  font-size: 20px;
+}
+.message{
+  word-break: break-all;
+  max-width: 100%;
+  color: #eceff1;
+  font-size: 25px;
+}
+
+hr{
+  margin: 0.5em auto;
+  border: none;
+  height: 1px;
+  width: 95%;
+  background: linear-gradient(90deg, #90a4ae, #37474f);
+}

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Study Chat</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" type="text/css" media="screen" href="https://use.fontawesome.com/releases/v5.0.6/css/all.css">
+  <link rel="stylesheet" type="text/css" media="screen" href="./css/style.css" />
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+  <script type="text/javascript" src="./js/main.js"></script>
+</head>
+<body>
+  
+  <div id="chat-input">
+    <textarea wrap="soft" id="chat-input-bar" :placeholder="myUserName" v-model="msg" @keyup.ctrl.enter="clicked()" @keydown="typed()"></textarea>
+    <button id="chat-btn" @click="clicked()">
+      <i id="send-icon" class="fas fa-paper-plane fa-3x"></i>
+      <div id="send-shortcut">(ctrl + Enter)</div>
+    </button>
+    <button id="extend-icon" :class="{ 'extend-icon-extended': isExtended }" @click="extend()">
+      <i class="fas fa-angle-double-up fa-lg"></i>
+    </button>
+  </div>
+
+  <div id="contents">
+    <header class="contents-header">
+      タイムライン
+    </header>
+    <div id="contents-box">
+      <ul class="list">
+        <li v-for="item of messages" :class="[ contentType(item.type), isMyPost(item.id) ]" v-html="item.content">
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div id="info">
+    <header class="contents-header" id="info-header">
+      Info
+    </header>
+    <div id="info-box">
+      <div id="now-active">
+        現在 {{ active }}人 入室しています
+      </div>
+      <ul class="info-list">
+        {{ typing.title }}
+        <li v-for="user of typing.users" class="info-list-item" v-html="user">
+        </li>
+      </ul>
+      <ul class="info-list">
+        Users:
+        <li class="info-list-item" v-for="(userName, userID) of userList">
+          <div :class="{ 'active-member-my-name': isMyID(userID) }">
+            {{ userName }}
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div id="login-modal" v-if="seen">
+    <div id="login-contents">
+      <div id="login-text">ユーザー名を決めてください</div>
+      <input type="text" id="login-input" placeholder="名前を入力してください" v-model="name" @keyup.enter="clicked()">
+      <button id="login-btn" @click="clicked()">決定</button>
+    </div>
+  </div>
+
+</body>
+</html>

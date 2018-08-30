@@ -11,7 +11,8 @@ document.addEventListener("DOMContentLoaded",()=>{
             if(userName !== ""){
                 socket.emit("join",userName);
                 loginDialog.close();
-                document.getElementById("chatBar").placeholder = "Chat as " + userName
+                document.getElementById("chatBar").placeholder = "Chat as " + userName;
+                document.getElementById("welcome").innerHTML = userName + " さん、SimpleChat へようこそ！<br>自由気ままなチャットをお楽しみください。"
             }
         });
         document.getElementById("userName").addEventListener("keydown",(e)=>{
@@ -70,6 +71,7 @@ document.addEventListener("DOMContentLoaded",()=>{
         //全体要素作成
         let info = document.createElement("div");
         info.classList.add("message");
+        info.classList.add("system");
         //情報を埋める
         info.innerHTML = "<strong>"+data.userName+"</strong>さんがログインしました";
         //画面上に追加
@@ -84,6 +86,7 @@ document.addEventListener("DOMContentLoaded",()=>{
         //全体要素作成
         let info = document.createElement("div");
         info.classList.add("message");
+        info.classList.add("system");
         //情報を埋める
         info.innerHTML = "<strong>"+data.userName+"</strong>さんが消えました";
         //画面上に追加
@@ -97,7 +100,8 @@ document.addEventListener("DOMContentLoaded",()=>{
         //要素作成
         let info = document.createElement("div");
         info.classList.add("message");
-        info.innerHTML = "<span style='color: darkred'>サーバとの接続が切れました</span>";
+        info.classList.add("system");
+        info.innerHTML = "<span style='color: darkred'>サーバとの接続が切れました<br>再接続可能になった場合再びログインできるようになります</span>";
         addItem(info);
     });
 

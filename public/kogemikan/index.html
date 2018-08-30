@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="./css/style.css">
+  <title>kogemikan</title>
+</head>
+<body>
+  <div id="header">
+    <div id="members">
+      <img class="image" src="./img/human.png" alt=":Human:">
+      <div class="number">
+        <span>N/A</span>
+      </div>
+    </div>
+    <div id="logger">
+      <div id="logMsgField"></div>
+    </div>
+    <div id="container">
+      <div id="memberList">
+        <ul id="memberListArea">
+          <li class="member">undefined</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div id="inputWrapper">
+    <form id="chatForm">
+      <textarea class="inputBar" id="chatBar"></textarea>
+      <button id="sendButton" class="button">送信</button>
+    </form>
+  </div>
+  <div id="messageAreaBG">
+    <ul id="messageArea"></ul>
+    <div id="recievedNewMsg">
+      <div id="noticeBG">
+        <span id="notice">新しいメッセージが届きました</span>
+      </div>
+    </div>
+  </div>
+  <dialog id="loginDialog">
+    <p>ユーザー名を決めてください</p>
+    <form id="loginForm">
+      <input class="inputBar" type="text" id="userName" value="" placeholder="名前を入力" autocomplete="off">
+      <button id="closeButton" class="button">決定</button>
+    </form>
+  </dialog>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+  <script type="text/javascript" src="./js/main.js"></script>
+</body>
+</html>

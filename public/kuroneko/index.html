@@ -14,7 +14,7 @@
 <body>
   
   <div id="chat-input">
-    <textarea wrap="soft" id="chat-input-bar" v-model="msg" @keyup.ctrl.enter="clicked()"></textarea>
+    <textarea wrap="soft" id="chat-input-bar" :placeholder="myUserName" v-model="msg" @keyup.ctrl.enter="clicked()"></textarea>
     <button id="chat-btn" @click="clicked()">
       <i id="send-icon" class="fas fa-paper-plane fa-3x"></i>
       <div id="send-shortcut">(ctrl + Enter)</div>
@@ -31,7 +31,7 @@
     </header>
     <div id="contents-box">
       <ul class="list">
-        <li v-for="item of messages" class="contents-list" :class="{ 'my-post': item.isMyPost }" v-html="item.content">
+        <li v-for="item of messages" :class="[ contentType(item.type), isMyPost(item.id) ]" v-html="item.content">
         </li>
       </ul>
     </div>
@@ -47,7 +47,7 @@
       </div>
       <ul id="active-member-list">
         <li class="active-member" v-for="(userName, userID) of userList">
-          <div class="active-member-name" :class="{ 'active-member-my-name': isMyID(userID) }">
+          <div :class="{ 'active-member-my-name': isMyID(userID) }">
             {{ userName }}
           </div>
         </li>

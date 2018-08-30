@@ -39,18 +39,64 @@
       return AutoLink(string);
     };
 
-    function AutoLink(str) {
+    const AutoLink = (str) => {
       const regexp_url = /((h?)(ttps?:\/\/[a-zA-Z0-9.\-_@:/~?%&;=+#',()*!]+))/g;
       const regexp_makeLink = (all, url, h, href) => {
         return `<a target="_blank" href="h${href}">${url}</a>`;
       };
 
       return str.replace(regexp_url, regexp_makeLink);
-    }
+    };
+
+    const convertDay = (id) => {
+      switch(id) {
+      case 0:
+        return '日';
+      case 1:
+        return '月';
+      case 2:
+        return '火';
+      case 3:
+        return '水';
+      case 4:
+        return '木';
+      case 5:
+        return '金';
+      case 6:
+        return '土';
+      }
+    };
+
+    const zeroPadding = (string, length) => {
+      let zero = '';
+      for (let i = 0; i < length; i++) zero += '0';
+      return (zero + string).slice(-length);
+    };
 
     const msgFormat = (name, message, isMyPost) => {
       message = escape(message);
       return `<div class="name">${name}</div><div class="message ${isMyPost ? 'my-message' : ''}">${message}</div>`;
+    };
+
+    const infoFormat = (message) => {
+      message = escape(message);
+      const date = new Date();
+      const Mth = date.getMonth();
+      const dat = date.getDate();
+      const day = convertDay(date.getDay());
+      const H = date.getHours();
+      const M = zeroPadding(date.getMinutes(), 2);
+      const S = zeroPadding(date.getSeconds(), 2);
+
+      let html = '';
+      html += `<div class="contents-info-time">`;
+      html += `${Mth}月${dat}日(${day}) `;
+      html += `${H}:${M}:${S}`;
+      html += `</div>`;
+      html += `<div class="contents-info-msg">`;
+      html += `${message}`;
+      html += `</div>`;
+      return html;
     };
 
     const connectEvent = () => {
@@ -69,6 +115,7 @@
               userName = escape(this.name);
               socket.emit('join', escape(this.name));
               this.seen = false;
+              chatInput.userName = userName;
               document.getElementById('chat-input-bar').focus();
             }
           }
@@ -79,6 +126,16 @@
         el: '#contents',
         data: {
           messages: [],
+        },
+        methods: {
+          isMyPost(id) {
+            return (userID === id) ?
+              'my-post' : '';
+          },
+          contentType(type) {
+            return (type === 'msg') ?
+              'contents-list' : 'contents-info';
+          }
         }
       });
 
@@ -96,10 +153,19 @@
         }
       });
 
-      new Vue({
+      const chatInput = new Vue({
         el: '#chat-input',
         data: {
-          msg: ''
+          msg: '',
+          userName: ''
+        },
+        computed: {
+          myUserName() {
+            if (!this.userName) return '';
+            const possessive = (this.userName.split('').pop() === 's') ?
+              '\'' : '\'s';
+            return `${this.userName}${possessive} code here!`;
+          }
         },
         methods: {
           clicked() {
@@ -113,10 +179,10 @@
       });
 
       socket.on('message', async data => {
-        const isMyPost = (data.id === userID);
         contents.messages.push({
-          isMyPost,
-          content: msgFormat(data.userName, data.message, isMyPost)
+          id: data.id,
+          content: msgFormat(data.userName, data.message, (data.id === userID)),
+          type: 'msg'
         });
 
         await contents.$nextTick();
@@ -139,6 +205,11 @@
       socket.on('join', data => {
         info.active = activate = data.numUsers;
         info.userList[data.joinedUserId] = data.userName;
+        contents.messages.push({
+          id: '',
+          content: infoFormat(`${data.userName} が入室しました`),
+          type: 'info'
+        });
       });
 
       socket.on('user left', async data => {
@@ -146,8 +217,11 @@
         Vue.delete(info.userList, 'undefined');
         await info.$nextTick();
         info.active = activate = data.numUsers;
-        // TODO: ここに退室した人の名前を書く
-        console.log(data.userName);
+        contents.messages.push({
+          id: '',
+          content: infoFormat(`${data.userName} が退室しました`),
+          type: 'info'
+        });
       });
 
       document.getElementById('login-input').focus();

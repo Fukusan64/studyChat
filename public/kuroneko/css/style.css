@@ -186,6 +186,27 @@ body {
   text-align: left;
 }
 
+.contents-info {
+  width: max-content;
+  margin: 2vh auto;
+  text-align: center;
+  box-sizing: border-box;
+  border: solid 2px darkslategray;
+  border-radius: 10px;
+  padding: 1vh 3vw;
+  background-color: darkslategray;
+}
+
+.contents-info-time {
+  font-size: 0.5em;
+  color: lightskyblue;
+}
+
+.contents-info-msg {
+  font-size: 1em;
+  color: lightgray;
+}
+
 /* Information Window */
 
 #info {
@@ -213,19 +234,29 @@ body {
 }
 
 #now-active {
-
+  text-align: center;
+  margin: 2vh 2vw;
+  border: solid 2px lime;
+  border-radius: 10px;
+  background-color: lime;
 }
 
 #active-member-list {
-
+  list-style-type: none;
+  padding: 0;
+  margin: 3vh 3vw;
 }
 
 .active-member {
-
+  text-align: left;
 }
 
-.active-member-name {
+.active-member:not(:last-child) {
+  border-bottom: solid 2px rgb(64, 64, 64);
+}
 
+.active-member-my-name {
+  font-weight: bold;
 }
 
 #now-typing {

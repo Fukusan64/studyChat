@@ -206,7 +206,7 @@
             if (!this.userName) return '';
             const possessive = (this.userName.split('').pop() === 's') ?
               '\'' : '\'s';
-            return `${this.userName}${possessive} code here!`;
+            return `${this.userName}${possessive} chat here!`;
           }
         },
         methods: {

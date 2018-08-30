@@ -70,6 +70,7 @@ body{
   color: #fff9e0;
 }
 .mainTitle span{
+  padding: 0 5px;
   font-size: 1.5em;
 }
 #messageArea p{

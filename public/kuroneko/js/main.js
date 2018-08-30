@@ -76,7 +76,7 @@
     const msgFormat = (name, message, isMyPost) => {
       message = escape(message);
       const date = new Date();
-      const Mth = date.getMonth();
+      const Mth = date.getMonth() + 1;
       const dat = date.getDate();
       const day = convertDay(date.getDay());
       const H = date.getHours();
@@ -93,7 +93,7 @@
     const infoFormat = (message) => {
       message = escape(message);
       const date = new Date();
-      const Mth = date.getMonth();
+      const Mth = date.getMonth() + 1;
       const dat = date.getDate();
       const day = convertDay(date.getDay());
       const H = date.getHours();

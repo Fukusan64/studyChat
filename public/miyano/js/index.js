@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded",()=>{
 
     // チャットをちゃっと送るやつ
     document.getElementById("sendButton").addEventListener("click",()=>{
-        var message = creanInput(document.getElementById("chatBar").value);
+        let message = creanInput(document.getElementById("chatBar").value);
         if(message){
             socket.emit("message",message);
             console.info(now()+"Message was sent!");
@@ -91,7 +91,7 @@ document.addEventListener("DOMContentLoaded",()=>{
     });
 
     //鯖が死んだときのやつ
-    socket.on("disconnect",(data)=>{
+    socket.on("disconnect",()=>{
         //ログを残す
         console.error(now()+"Disconnect detect!");
         //要素作成
@@ -127,8 +127,8 @@ document.addEventListener("DOMContentLoaded",()=>{
 
     // URLを検出してリンクにするやつ
     const convertLink = (str)=>{
-        var regexp_url = /((h?)(ttps?:\/\/[a-zA-Z0-9.\-_@:/~?%&;=+#',()*!]+))/g; // ']))/;
-        var regexp_makeLink = (all, url, h, href)=>{
+        let regexp_url = /((h?)(ttps?:\/\/[a-zA-Z0-9.\-_@:/~?%&;=+#',()*!]+))/g; // ']))/;
+        let regexp_makeLink = (all, url, h, href) => {
             return '<a href="h' + href + '" target="_blank">' + url + '</a>';
         };
 

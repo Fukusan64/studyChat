@@ -10,14 +10,20 @@
 </head>
 <body>
   <div id="inputWrapper">
-    <input class="inputBar" id="chatBar" type="text" placeholder="送信内容を入力">
-    <button id="sendButton" class="button"><i class="fas fa-comment fa-2x"></i></button>
+    <input class="inputBar" id="chatBar" type="text" placeholder="Please write your message">
+    <button id="sendButton" class="button"><i class="fas fa-comment fa-2x"></i><span>ctrl+Enter</span></button>
   </div>
-  <div id="messageArea"></div>
+  <div id="messageArea">
+    <div class="mainTitle">
+      <p><span>CHAT</span> -suzuki</p>
+    </div>
+  </div>
+  <button id="downButton"><i class="fas fa-angle-double-down fa-3x"></i></button>
   <dialog id="loginDialog">
-    <p>ユーザー名を決めてください</p>
-    <input class="inputBar" type="text" id="userName" value="" placeholder="名前を入力">
-    <button id="closeButton" class="button">決定</button>
+    <p class="mainTitle">Welcome to <span>CHAT</span> -suzuki</p>
+    <p>I promise your enjoyment through conversation with strangers!</p>
+    <input class="inputBar" type="text" id="userName" value="" placeholder="username">
+    <button id="closeButton" class="button">Entering</button>
   </dialog>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script type="text/javascript" src="/socket.io/socket.io.js"></script>

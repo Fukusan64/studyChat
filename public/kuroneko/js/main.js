@@ -75,7 +75,19 @@
 
     const msgFormat = (name, message, isMyPost) => {
       message = escape(message);
-      return `<div class="name">${name}</div><div class="message ${isMyPost ? 'my-message' : ''}">${message}</div>`;
+      const date = new Date();
+      const Mth = date.getMonth();
+      const dat = date.getDate();
+      const day = convertDay(date.getDay());
+      const H = date.getHours();
+      const M = zeroPadding(date.getMinutes(), 2);
+      const S = zeroPadding(date.getSeconds(), 2);
+
+      let html = '';
+      html += `<div class="name">${name}</div>`;
+      html += `<div class="message ${isMyPost ? 'my-message' : ''}">${message}</div>`;
+      html += `<div class="date">${Mth}月${dat}日(${day}) ${H}:${M}:${S}</div>`;
+      return html;
     };
 
     const infoFormat = (message) => {

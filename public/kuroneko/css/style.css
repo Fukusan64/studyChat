@@ -6,7 +6,7 @@
 
 body {
   background-color: powderblue;
-  margin: 0px;
+  margin: 0;
   width: 100vw;
   height: 100vh;
   position: fixed;
@@ -16,10 +16,10 @@ body {
 
 #login-modal {
   position: fixed;
-  top: 0px;
-  bottom: 0px;
-  left: 0px;
-  right: 0px;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
   width: 100vw;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.7);
@@ -79,7 +79,7 @@ body {
   position: fixed;
   width: 70vw;
   height: calc(16vh + 6px);
-  bottom: 0px;
+  bottom: 0;
   box-sizing: border-box;
   border: solid 3px rgb(32, 32, 32);
   transition: 1000ms;
@@ -149,8 +149,8 @@ body {
 /* Contents */
 
 #contents {
-  top: 0px;
-  left: 0px;
+  top: 0;
+  left: 0;
   width: 70vw;
   height: calc(84vh - 6px);
   background-color: steelblue;
@@ -208,6 +208,11 @@ body {
   word-break: break-all;
   height: auto;
   background-color: darkgray;
+}
+
+.date {
+  font-size: 0.7em;
+  color: darkslategray;
 }
 
 .my-post {
@@ -270,7 +275,7 @@ body {
 .info-list {
   list-style-type: none;
   padding: 0;
-  margin: 3vh 3vw;
+  margin: 5vh 3vw;
 }
 
 .info-list-item {

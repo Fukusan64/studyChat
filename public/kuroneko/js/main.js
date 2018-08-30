@@ -99,6 +99,15 @@
       return html;
     };
 
+    const typingFormat = (name) => {
+      let html = '';
+      html += '<div>';
+      html += `<span class="typing-user-name">${name}</span>`;
+      html += '<span class="typing-user-text"> is typing...</span>';
+      html += '</div>';
+      return html;
+    };
+
     const autoScroll = () => {
       const content = document.getElementById('contents-box');
       const bottomItem = ([...content.children[0].children]).pop();
@@ -153,14 +162,23 @@
         el: '#info',
         data: {
           active: activate,
-          data: [],
-          userList: []
+          userList: [],
+          typing: {
+            title: '',
+            isEmpty: true,
+            users: []
+          }
         },
         methods: {
           isMyID(id) {
             return id === userID;
+          },
+          typingSwitch(val) {
+            this.typing.isEmpty = val;
+            this.typing.title = (this.typing.isEmpty) ?
+              'Typing...' : '';
           }
-        }
+        },
       });
 
       const chatInput = new Vue({
@@ -168,7 +186,8 @@
         data: {
           msg: '',
           userName: '',
-          isExtended: false
+          isExtended: false,
+          timeoutID: null
         },
         computed: {
           myUserName() {
@@ -181,6 +200,11 @@
         methods: {
           clicked() {
             if (this.msg && !validate.soft.test(this.msg)) {
+              if (this.timeoutID) {
+                clearTimeout(this.timeoutID);
+                this.timeoutID = null;
+              }
+              socket.emit('stop typing');
               socket.emit('message', this.msg);
               this.msg = '';
               document.getElementById('chat-input-bar').focus();
@@ -210,6 +234,7 @@
                   set(target) {
                     target.done++;
                     if (target.process === target.done) s();
+                    return true;
                   }
                 });
                 for (const event of waitEvents) {
@@ -242,6 +267,18 @@
 
             await waitTransition();
             autoScroll();
+          },
+          typed() {
+            if (this.timeoutID === null) {
+              socket.emit('start typing');
+            }
+            else {
+              clearTimeout(this.timeoutID);
+            }
+            this.timeoutID = setTimeout(() => {
+              this.timeoutID = null;
+              socket.emit('stop typing');
+            }, 2000);
           }
         }
       });
@@ -285,6 +322,20 @@
         });
         await contents.$nextTick();
         autoScroll();
+      });
+
+      socket.on('update typing user', async data => {
+        info.typing.users.length = 0;
+        for (const [ID, name] of Object.entries(data.typingUser)) {
+          if (userID !== ID) {
+            info.typing.users.push(typingFormat(name));
+          }
+        }
+        await info.$nextTick();
+        if (info.typing.users.length) {
+          info.typingSwitch(true);
+        }
+        else info.typingSwitch(false);
       });
 
       document.getElementById('login-input').focus();

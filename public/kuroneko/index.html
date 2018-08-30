@@ -14,7 +14,7 @@
 <body>
   
   <div id="chat-input">
-    <textarea wrap="soft" id="chat-input-bar" :placeholder="myUserName" v-model="msg" @keyup.ctrl.enter="clicked()"></textarea>
+    <textarea wrap="soft" id="chat-input-bar" :placeholder="myUserName" v-model="msg" @keyup.ctrl.enter="clicked()" @keydown="typed()"></textarea>
     <button id="chat-btn" @click="clicked()">
       <i id="send-icon" class="fas fa-paper-plane fa-3x"></i>
       <div id="send-shortcut">(ctrl + Enter)</div>
@@ -44,20 +44,19 @@
       <div id="now-active">
         現在 {{ active }}人 入室しています
       </div>
-      <ul id="active-member-list">
+      <ul class="info-list">
+        {{ typing.title }}
+        <li v-for="user of typing.users" class="info-list-item" v-html="user">
+        </li>
+      </ul>
+      <ul class="info-list">
         Users:
-        <li class="active-member" v-for="(userName, userID) of userList">
+        <li class="info-list-item" v-for="(userName, userID) of userList">
           <div :class="{ 'active-member-my-name': isMyID(userID) }">
             {{ userName }}
           </div>
         </li>
       </ul>
-      <div id="now-typing">
-        <ul class="small-list">
-          <li v-for="user of data" class="typing-list" v-html="user">
-          </li>
-        </ul>
-      </div>
     </div>
   </div>
 

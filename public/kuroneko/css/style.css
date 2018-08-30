@@ -267,6 +267,20 @@ body {
   display: none;
 }
 
+.info-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 3vh 3vw;
+}
+
+.info-list-item {
+  text-align: left;
+}
+
+.info-list-item:not(:last-child) {
+  border-bottom: solid 2px rgb(64, 64, 64);
+}
+
 #now-active {
   text-align: center;
   margin: 2vh 2vw;
@@ -275,32 +289,17 @@ body {
   background-color: lime;
 }
 
-#active-member-list {
-  list-style-type: none;
-  padding: 0;
-  margin: 3vh 3vw;
-}
-
-.active-member {
-  text-align: left;
-}
-
-.active-member:not(:last-child) {
-  border-bottom: solid 2px rgb(64, 64, 64);
-}
-
 .active-member-my-name {
   font-weight: bold;
 }
 
-#now-typing {
-
+.typing-user-name {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: black;
 }
 
-.small-list {
-
-}
-
-.typing-list {
-
+.typing-user-text {
+  font-size: 0.7em;
+  color: darkslategray;
 }

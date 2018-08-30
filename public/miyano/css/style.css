@@ -5,6 +5,7 @@ body{
 @font-face{
     font-family: 'VL PGothic';
     src: local('VL PGothic');
+    src: url("https://miyacorata.net/font/VL-PGothic-Regular.woff");
 }
 #inputWrapper{
     position: fixed;
@@ -115,6 +116,15 @@ input#userName{
     padding:0 15px 8px;
     border-bottom:solid 1px lightgray;
 }
+.system{
+    padding-left: 80px;
+    background-size: auto 90px;
+    background-repeat: no-repeat;
+    background-position: top left 17px;
+    background-image: url("../piyochan.png");
+    background-attachment: scroll;
+}
+
 .postTime{
     font-size:13px;
     color: gray;

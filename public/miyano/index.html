@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>Chat</title>
+    <title>SimpleChat</title>
     <link rel="stylesheet" href="css/style.css">
     <script src="/socket.io/socket.io.js"></script>
     <script src="js/index.js"></script>
@@ -12,9 +12,18 @@
     <input class="inputBar" id="chatBar" type="text" title="chat">
     <button id="sendButton" class="button">Send</button>
 </div>
-<div id="messageArea"></div>
+<div id="messageArea">
+    <div class="message system" style="min-height: 100px;">
+        <p id="welcome">
+            SimpleChat へようこそ！<br>まずはユーザーネームを決めてログインしてください！
+        </p>
+        <p class="postTime">
+            SimpleChat by miyacorata
+        </p>
+    </div>
+</div>
 <dialog id="loginDialog">
-    <h2>Login</h2>
+    <h2>Login - SimpleChat</h2>
     <img src="./header.jpg" id="header" alt="最上静香ちゃんはかわいい" title="最上静香ちゃんはかわいい">
     <p>Welcome! Enter your name to login.</p>
     <label for="userName">User Name</label>

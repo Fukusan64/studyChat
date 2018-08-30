@@ -103,7 +103,7 @@ $( () => {
         });
 
         $('#noticeBG').click((e) => {
-          $('#messageArea').get(0).scrollTop = $('#messageArea').get(0).scrollHeight;
+          $('#messageArea').get(0).scrollTo(0,$('#messageArea').get(0).scrollHeight);
           hideNotice();
         });
 

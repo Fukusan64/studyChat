@@ -19,11 +19,10 @@
       <i id="send-icon" class="fas fa-paper-plane fa-3x"></i>
       <div id="send-shortcut">(ctrl + Enter)</div>
     </button>
+    <button id="extend-icon" :class="{ 'extend-icon-extended': isExtended }" @click="extend()">
+      <i class="fas fa-angle-double-up fa-lg"></i>
+    </button>
   </div>
-
-  <!-- <div id="extend-icon">
-
-  </div> -->
 
   <div id="contents">
     <header class="contents-header">
@@ -46,6 +45,7 @@
         現在 {{ active }}人 入室しています
       </div>
       <ul id="active-member-list">
+        Users:
         <li class="active-member" v-for="(userName, userID) of userList">
           <div :class="{ 'active-member-my-name': isMyID(userID) }">
             {{ userName }}

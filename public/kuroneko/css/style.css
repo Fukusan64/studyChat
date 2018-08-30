@@ -82,6 +82,7 @@ body {
   bottom: 0px;
   box-sizing: border-box;
   border: solid 3px rgb(32, 32, 32);
+  transition: 1000ms;
 }
 
 #chat-input-bar {
@@ -93,6 +94,7 @@ body {
   box-sizing: inherit;
   padding: 1vh 1vw;
   resize: none;
+  transition: 1000ms;
 }
 
 #chat-btn {
@@ -104,6 +106,7 @@ body {
   box-sizing: inherit;
   border: solid 2px mediumslateblue;
   background-color: lightcyan;
+  transition: 1000ms;
 }
 
 #send-icon {
@@ -115,6 +118,34 @@ body {
   color: tomato;
 }
 
+/* Extend Icon */
+
+#extend-icon {
+  box-sizing: border-box;
+  position: fixed;
+  height: 6vh;
+  margin-top: -23vh;
+  width: 5vw;
+  margin-left: 64vw;
+  border: solid 2px rgba(0, 0, 0, 0.2);
+  border-radius: 15px;
+  background-color: rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  transition: 1000ms;
+}
+
+#extend-icon:focus {
+  outline: none;
+}
+
+#extend-icon:active {
+  background-color: rgba(255, 255, 255, 0);
+}
+
+.extend-icon-extended {
+  transform: rotate(180deg);
+}
+
 /* Contents */
 
 #contents {
@@ -123,6 +154,7 @@ body {
   width: 70vw;
   height: calc(84vh - 6px);
   background-color: steelblue;
+  transition: 1000ms;
 }
 
 .contents-header {
@@ -144,6 +176,7 @@ body {
   height: calc(77vh - 6px);
   overflow-y: auto;
   -ms-overflow-style: none;
+  transition: 1000ms;
 }
 
 #contents-box::-webkit-scrollbar {
@@ -217,6 +250,7 @@ body {
   background-color: steelblue;
   box-sizing: border-box;
   border-left: solid 2px white;
+  transition: 1000ms;
 }
 
 #info-header {

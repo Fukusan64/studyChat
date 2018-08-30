@@ -99,6 +99,16 @@
       return html;
     };
 
+    const autoScroll = () => {
+      const content = document.getElementById('contents-box');
+      const bottomItem = ([...content.children[0].children]).pop();
+      content.scroll({
+        top: content.scrollHeight + bottomItem.offsetHeight,
+        left: 0,
+        behavior: 'smooth'
+      });
+    };
+
     const connectEvent = () => {
 
       userID = socket.id;
@@ -157,7 +167,8 @@
         el: '#chat-input',
         data: {
           msg: '',
-          userName: ''
+          userName: '',
+          isExtended: false
         },
         computed: {
           myUserName() {
@@ -174,6 +185,63 @@
               this.msg = '';
               document.getElementById('chat-input-bar').focus();
             }
+          },
+          async extend() {
+            this.isExtended ^= true;
+
+            const chatWindow = this.$el;
+            const [chatArea, chatBtn, chatExtend] = [...chatWindow.children].map(el => el.style);
+            const contentsArea = contents.$el;
+            const contentsBox = contentsArea.children[1].style;
+            const infoArea = info.$el.style;
+
+            const waitTransition = () => {
+              const elem = [chatWindow, ...chatWindow.children, contentsArea, contentsArea.children[1], info.$el];
+              const waitEvents = [];
+              for (const e of elem) {
+                waitEvents.push(() => {
+                  return new Promise(s => {
+                    e.addEventListener('transitionend', s);
+                  });
+                });
+              }
+              return new Promise(async s => {
+                const listener = new Proxy({process: elem.length, done: 0}, {
+                  set(target) {
+                    target.done++;
+                    if (target.process === target.done) s();
+                  }
+                });
+                for (const event of waitEvents) {
+                  await event();
+                  listener.done++;
+                }
+              });
+            };
+
+            if (this.isExtended) {
+              chatWindow.style.height = 'calc(48vh + 6px)';
+              chatArea.height = '48vh';
+              chatBtn.height = '48vh';
+              chatBtn.marginTop = '-48vh';
+              chatExtend.marginTop = '-55vh';
+              contentsArea.style.height = 'calc(52vh - 6px)';
+              contentsBox.height = 'calc(45vh - 6px)';
+              infoArea.marginTop = 'calc(0px - (52vh - 6px))';
+            }
+            else {
+              chatWindow.style.height = 'calc(16vh + 6px)';
+              chatArea.height = '16vh';
+              chatBtn.height = '16vh';
+              chatBtn.marginTop = '-16vh';
+              chatExtend.marginTop = '-23vh';
+              contentsArea.style.height = 'calc(84vh - 6px)';
+              contentsBox.height = 'calc(77vh - 6px)';
+              infoArea.marginTop = 'calc(0px - (84vh - 6px))';
+            }
+
+            await waitTransition();
+            autoScroll();
           }
         }
       });
@@ -184,17 +252,8 @@
           content: msgFormat(data.userName, data.message, (data.id === userID)),
           type: 'msg'
         });
-
         await contents.$nextTick();
-
-        const content = document.getElementById('contents-box');
-        const bottomItem = ([...content.children[0].children]).pop();
-
-        content.scroll({
-          top: content.scrollHeight + bottomItem.offsetHeight,
-          left: 0,
-          behavior: 'smooth'
-        });
+        autoScroll();
       });
 
       socket.on('login', data => {
@@ -202,7 +261,7 @@
         info.userList = data.userList;
       });
 
-      socket.on('join', data => {
+      socket.on('join', async data => {
         info.active = activate = data.numUsers;
         info.userList[data.joinedUserId] = data.userName;
         contents.messages.push({
@@ -210,6 +269,8 @@
           content: infoFormat(`${data.userName} が入室しました`),
           type: 'info'
         });
+        await contents.$nextTick();
+        autoScroll();
       });
 
       socket.on('user left', async data => {
@@ -222,6 +283,8 @@
           content: infoFormat(`${data.userName} が退室しました`),
           type: 'info'
         });
+        await contents.$nextTick();
+        autoScroll();
       });
 
       document.getElementById('login-input').focus();

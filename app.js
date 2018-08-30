@@ -60,6 +60,10 @@ io.on('connection', socket => {
   socket.on('disconnect', () => {
     if (!addedUser) return ;
     delete userList[socket.id];
+    delete typingUser[socket.id];
+    io.emit('update typing user', {
+      typingUser,
+    });
     console.log('disconnect', { userName: socket.userName, numUsers, referer: socket.handshake.headers.referer });
     numUsers -= 1;
     socket.broadcast.emit('user left', {

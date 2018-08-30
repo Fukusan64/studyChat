@@ -107,7 +107,11 @@ input#userName{
 }
 
 .message{
+    position: relative;
+    width: calc(100% - 20px);
+    box-sizing: border-box;
     margin:10px;
+    animation: fade-in ease-out 1s;
     padding:0 15px 8px;
     border-bottom:solid 1px lightgray;
 }
@@ -120,6 +124,7 @@ h2{
 }
 p{
     margin: 0.3em 0 0.4em;
+    font-size: 19px;
 }
 .userId{
     color: deepskyblue;
@@ -146,4 +151,9 @@ p{
     width: 400px;
     height: auto;
     margin: 0 -15px 5px;
+}
+
+@keyframes fade-in {
+    0% { left: 50px; opacity: 0; }
+    100% { left: 0; opacity: 1 }
 }

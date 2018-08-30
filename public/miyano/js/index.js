@@ -7,10 +7,11 @@ document.addEventListener("DOMContentLoaded",()=>{
         loginDialog.showModal();
 
         document.getElementById("closeButton").addEventListener("click",()=>{
-            const userName = document.getElementById("userName").value;
+            const userName = creanInput(document.getElementById("userName").value);
             if(userName !== ""){
                 socket.emit("join",userName);
                 loginDialog.close();
+                document.getElementById("chatBar").placeholder = "Chat as " + userName
             }
         });
         document.getElementById("userName").addEventListener("keydown",(e)=>{
@@ -20,9 +21,7 @@ document.addEventListener("DOMContentLoaded",()=>{
 
     // チャットをちゃっと送るやつ
     document.getElementById("sendButton").addEventListener("click",()=>{
-        var message = document.getElementById("chatBar").value;
-        //HTMLタグの除去
-        message = message.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g,'');
+        var message = creanInput(document.getElementById("chatBar").value);
         if(message){
             socket.emit("message",message);
             console.info(now()+"Message was sent!");
@@ -49,7 +48,9 @@ document.addEventListener("DOMContentLoaded",()=>{
         userName.innerHTML = data.userName + "<span class='userId'>ID:"+data.id+"</span>";
         //メッセージコンテント
         let messageContent = document.createElement("p");
-        messageContent.innerHTML = data.message;
+        let messageText = creanInput(data.message);
+        messageText = convertLink(messageText);
+        messageContent.innerHTML = messageText;
         //自分の発言
         if(data.id === socket.id){
             message.classList.add("myMessage");
@@ -76,7 +77,7 @@ document.addEventListener("DOMContentLoaded",()=>{
     });
 
     // 人が消えた時のやつ
-    socket.on("disconnect",(data)=>{
+    socket.on("user left",(data)=>{
         //ログを残す
         console.info(now()+"1 user left from chat...");
         console.dir(data);
@@ -86,6 +87,17 @@ document.addEventListener("DOMContentLoaded",()=>{
         //情報を埋める
         info.innerHTML = "<strong>"+data.userName+"</strong>さんが消えました";
         //画面上に追加
+        addItem(info);
+    });
+
+    //鯖が死んだときのやつ
+    socket.on("disconnect",(data)=>{
+        //ログを残す
+        console.error(now()+"Disconnect detect!");
+        //要素作成
+        let info = document.createElement("div");
+        info.classList.add("message");
+        info.innerHTML = "<span style='color: darkred'>サーバとの接続が切れました</span>";
         addItem(info);
     });
 
@@ -104,5 +116,22 @@ document.addEventListener("DOMContentLoaded",()=>{
     const now = ()=>{
         let date = new Date();
         return "["+date.toISOString()+"]";
+    };
+
+    // 入力をきれいにする
+    const creanInput = (string)=>{
+        //HTMLタグの除去
+        string = string.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g,'');
+        return string;
+    };
+
+    // URLを検出してリンクにするやつ
+    const convertLink = (str)=>{
+        var regexp_url = /((h?)(ttps?:\/\/[a-zA-Z0-9.\-_@:/~?%&;=+#',()*!]+))/g; // ']))/;
+        var regexp_makeLink = (all, url, h, href)=>{
+            return '<a href="h' + href + '" target="_blank">' + url + '</a>';
+        };
+
+        return str.replace(regexp_url, regexp_makeLink);
     };
 });

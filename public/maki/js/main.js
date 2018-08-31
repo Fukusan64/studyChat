@@ -41,11 +41,13 @@ $(()=> {
     });
 
     $('#sendButton').click(()=>{
-      socket.emit('message', escapeHTML($('#chatBar').val()));
-      $('#chatBar').val("");
-      textareaHeight();
+      if($('#chatBar').val() != ''){
+        socket.emit('message', escapeHTML($('#chatBar').val()));
+        $('#chatBar').val("");
+        textareaHeight();
+      }
     });
-    //todo keydownによる脆弱性の修正
+    
     $('#chatBar').on("keydown", function(e) {
       if(e.keyCode === 13) {
         if(event.ctrlKey){
@@ -64,7 +66,9 @@ $(()=> {
      }
 
     var html = document.getElementById('messageArea');
-    /*$('#detachButton').on("click", function() {
+    /*
+    $('#detachButton').click(() =>{
+      console.log("html.scrollHeight:"+html.scrollHeight);
       $('#messageArea').scrollTop(html.scrollHeight);
       $('#newPostNotice').detach();
     });
@@ -94,13 +98,16 @@ $(()=> {
       if(now + html.clientHeight === before){
         $('#messageArea').scrollTop(after)
       }
+      /*
       else{
-       /* $('#messageArea').append(`
+        $('body').append(`
           <div id="newPostNotice">
             <button id="detachButton" class="button">New message</button>
           </div>
-        `)*/
+        `)
       }
+      */
+      
     });
   });
 });

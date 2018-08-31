@@ -66,13 +66,6 @@ $(()=> {
      }
 
     var html = document.getElementById('messageArea');
-    /*
-    $('#detachButton').click(() =>{
-      console.log("html.scrollHeight:"+html.scrollHeight);
-      $('#messageArea').scrollTop(html.scrollHeight);
-      $('#newPostNotice').detach();
-    });
-    */
 
     $(function() {
       var $textarea = $('#chatBar');
@@ -98,16 +91,16 @@ $(()=> {
       if(now + html.clientHeight === before){
         $('#messageArea').scrollTop(after)
       }
-      /*
       else{
-        $('body').append(`
-          <div id="newPostNotice">
-            <button id="detachButton" class="button">New message</button>
-          </div>
-        `)
+        $('#newPostNotice').show();
+        $('#detachButton').on("click", function(){
+          $('#messageArea').scrollTop(html.scrollHeight);
+          $('#newPostNotice').hide();
+        });
       }
-      */
-      
     });
+
+    $('#newPostNotice').hide();
+
   });
 });

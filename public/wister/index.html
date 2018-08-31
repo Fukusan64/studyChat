@@ -6,13 +6,25 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="./css/style.css">
   <title>sample</title>
+  <style type="text/css">
+  a:link { color: white; }
+  a:visited { color: red; }
+  a:hover { color: yellow; }
+  a:active { color: yellowgreen; }
+  </style>
 </head>
 <body>
+  <div id="calumn1"><b>Home</b></div>
+  <div id="calumn2"><b>TimeLine</b></div>
+  <div id="calumn3"><b>Users</b></div>
   <div id="inputWrapper">
-    <input class="inputBar" id="chatBar" type="text">
-    <button id="sendButton" class="button">送信</button>
+    <div id="typeDialog"><b>Typing</b><br></div>
+    <textarea class="inputBar" id="chatBar" type="text"></textarea>
+    <button id="sendButton" class="button"></button>
   </div>
-  <div id="messageArea"></div>
+  <div id="messageArea1"></div>
+  <div id="messageArea2"></div>
+  <div id="userList"></div>
   <dialog id="loginDialog">
     <p>ユーザー名を決めてください</p>
     <input class="inputBar" type="text" id="userName" value="" placeholder="名前を入力">

@@ -8,7 +8,7 @@ $(()=> {
 
     var textarea = document.getElementById("chatBar");
     function textareaHeight(){
-      textarea.style.height = "100%"
+      textarea.style.height = "96%"
     }
     textareaHeight();
 
@@ -41,11 +41,11 @@ $(()=> {
     });
 
     $('#sendButton').click(()=>{
-      socket.emit('message', $('#chatBar').val());
+      socket.emit('message', escapeHTML($('#chatBar').val()));
       $('#chatBar').val("");
       textareaHeight();
     });
-
+    //todo keydownによる脆弱性の修正
     $('#chatBar').on("keydown", function(e) {
       if(e.keyCode === 13) {
         if(event.ctrlKey){
@@ -53,6 +53,22 @@ $(()=> {
         }
       }
     });
+
+    function escapeHTML(str) {
+      str = str.replace(/&/g, '&amp;');
+      str = str.replace(/</g, '&lt;');
+      str = str.replace(/>/g, '&gt;');
+      str = str.replace(/"/g, '&quot;');
+      str = str.replace(/'/g, '&#39;');
+      return str;
+     }
+
+    var html = document.getElementById('messageArea');
+    /*$('#detachButton').on("click", function() {
+      $('#messageArea').scrollTop(html.scrollHeight);
+      $('#newPostNotice').detach();
+    });
+    */
 
     $(function() {
       var $textarea = $('#chatBar');
@@ -64,6 +80,7 @@ $(()=> {
     });
 
     socket.on('message', data => {
+      var before = html.scrollHeight;
       var message = data.message.replace(/\n/gi, "<br>");
       var nTime = printTime();
       $('#messageArea').append(`
@@ -72,9 +89,18 @@ $(()=> {
           <span class='message'>${message}</span>
         </div><hr/>
       `)
-      var html = document.getElementById('messageArea');
-      $('#messageArea').scrollTop(html.scrollHeight)
+      var after = html.scrollHeight;
+      var now = $('#messageArea').scrollTop();
+      if(now + html.clientHeight === before){
+        $('#messageArea').scrollTop(after)
+      }
+      else{
+       /* $('#messageArea').append(`
+          <div id="newPostNotice">
+            <button id="detachButton" class="button">New message</button>
+          </div>
+        `)*/
+      }
     });
-  
   });
 });

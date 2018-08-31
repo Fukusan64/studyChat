@@ -4,25 +4,28 @@ $(()=> {
     const loginDialog = $('#loginDialog').get(0);
     loginDialog.showModal();
 
-    $('#closeButton').click(() => {
-      let u = $('#userName'); 
-      if(u.val() !== '') {
-        socket.emit('join', u.val());
+    jc('#closeButton').click(() => {
+      var t = jc('#userName').val();
+      if(t !== '') {
+        socket.emit('join', t);
         loginDialog.close();
       }
     });
 
-    $('#sendButton').click(() => {
-      let c = $('chatBar');
-      if(c.val()  !== ''){
-        socket.emit('message', c.val());
-        c.val('');
+    jc('#sendButton').click(() => {
+      var t = jc('#chatBar').val();
+      if(t  !== ''){
+        socket.emit('message', t);
+        jc('#chatBar').val('');
       }
     });
   });
 
   socket.on('message', data => {
-    let m = $('messageArea');
-    m.text(m.text() + `<p>${data.userName} said: ${data.message}</p>`);
+    if (data.message.includes(':thinking:'))
+    {
+      data.message = data.message.replace(':thinking:', '\u{1f914}');
+    }
+    jc('#messageArea').append(`<p>${data.userName} said: ${data.message}</p>`);
   })
 });

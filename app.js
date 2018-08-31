@@ -64,8 +64,8 @@ io.on('connection', socket => {
     io.emit('update typing user', {
       typingUser,
     });
-    console.log('disconnect', { userName: socket.userName, numUsers, referer: socket.handshake.headers.referer });
     numUsers -= 1;
+    console.log('disconnect', { userName: socket.userName, numUsers, referer: socket.handshake.headers.referer });
     socket.broadcast.emit('user left', {
       userName: socket.userName,
       numUsers,
